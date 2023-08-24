@@ -3,17 +3,18 @@
 - Install for Window: https://github.com/microsoftarchive/redis/releases
 - Redis Commander: Redis web management tool written in node.js - https://www.npmjs.com/package/redis-commander
 
->>>> Scripts Redis Commander
+>> Scripts Redis Commander
 - Install on Global: npm install -g redis-commander 
 - Install on Local Project: npm install redis-commander 
 
 Start Redis web management tool: npx redis-commander
 
->>>> Script for Redis CLI
+>> Script for Redis CLI
 - Switch to Redis CLI on CMD use command: redis-cli
--- Note: make sure add directory folder of redis to Variables of System
+- Note: make sure add directory folder of redis to Variables of System
 
->>>> Redis Basic
+>> Redis Basic
+
 $ redis-cli
 127.0.0.1:6379> ping
 PONG
@@ -22,7 +23,7 @@ OK
 127.0.0.1:6379> get myKey
 "This is a String"
 
-[comment]: <> (getrange : dùng để tìm kiếm từ vị trí nào đến vị trí nào, -1 được hiểu là vị trí cuối cùng)
+- getrange : dùng để tìm kiếm từ vị trí nào đến vị trí nào, -1 được hiểu là vị trí cuối cùng
 127.0.0.1:6379> getrange myKey 0 -1  
 "This is a String"
 127.0.0.1:6379> getrange myKey 0 3
