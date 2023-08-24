@@ -13,7 +13,7 @@ Start Redis web management tool: npx redis-commander
 - Switch to Redis CLI on CMD use command: redis-cli
 - Note: make sure add directory folder of redis to Variables of System
 
-## Redis Basic
+## Redis Basic - String/Number
 ```
 $ redis-cli
 127.0.0.1:6379> ping
@@ -113,4 +113,115 @@ OK
 2) "myKey"      
 3) "count"      
 4) "key2"       
+```
+
+## Redis with Array/List
+- lpush : tạo 1 key là array và đẩy giá trị vào (đầy từ bên trái) array đó
+```
+127.0.0.1:6379> lpush players Ronaldo
+(integer) 1     
+127.0.0.1:6379> lpush players Messi
+(integer) 2  
+```
+
+- lrange : dùng để tìm kiếm item từ vị trí nào đến vị trí nào
+```
+127.0.0.1:6379> lrange players 0 -1
+1) "Messi" // lpush -> push vào trên đầu
+2) "Ronaldo"   
+```
+
+- rpush : tạo 1 key là array và đẩy giá trị vào (đầy từ bên phải) array đó
+```
+127.0.0.1:6379> rpush players Sancho
+(integer) 3  
+127.0.0.1:6379> lrange players 0 -1
+1) "Messi"  
+2) "Ronaldo"
+3) "Sancho" // Push thêm vào bên dưới
+```
+
+- llen : lấy length của list
+```
+127.0.0.1:6379> llen players
+(integer) 3 
+```
+
+- lpop : xóa phần tử mới nhất (trên cùng - bên trái) ra khỏi list
+```
+127.0.0.1:6379> lpop players
+"Messi"
+127.0.0.1:6379> lrange players 0 -1
+1) "Ronaldo"    
+2) "Sancho"   
+```
+- rpop : xóa phần tử củ nhất (dưới cùng - bên phải) ra khỏi list
+```
+127.0.0.1:6379> rpop players
+"Sancho"        
+127.0.0.1:6379> lrange players 0 -1
+1) "Ronaldo" 
+```
+-- lset : sửa lại giá trị một phần tử trong list
+```
+127.0.0.1:6379> lrange players 0 -1
+1) "Cavani"     
+2) "Messi"      
+3) "Ronaldo"    
+127.0.0.1:6379> lset players 1 Fred
+OK
+127.0.0.1:6379> lrange players 0 -1
+1) "Cavani"     
+2) "Fred"       
+3) "Ronaldo" 
+```
+
+-- linsert : dùng để thêm 1 phần tử sau hoặc trước một phần từ chỉ định
+```
+127.0.0.1:6379> lrange players 0 -1
+1) "Cavani"     
+2) "Fred"       
+3) "Ronaldo" 
+127.0.0.1:6379> linsert players after Cavani Martial
+(integer) 4     
+127.0.0.1:6379> linsert players before Cavani Pep
+(integer) 5   
+127.0.0.1:6379> lrange players 0 -1
+1) "Pep"        
+2) "Cavani"     
+3) "Martial"    
+4) "Fred"       
+5) "Ronaldo"    
+```
+
+-- lindex : lấy giá trị của phần tử ở index trong list
+```
+127.0.0.1:6379> lindex players 2
+"Martial"   
+```
+-- lpushx : thêm một phần tử vào keyList nhưng khác lpush là NẾU key không tồn tại sẽ không được tạo key và push vào
+```
+127.0.0.1:6379> lpushx movies Conan
+(integer) 0    
+```
+-- sort : sắp xếp lại các phần tử trong list theo kiểu sort tùy chọn
+```
+127.0.0.1:6379> lrange players 0 -1
+1) "Pep"        
+2) "Cavani"     
+3) "Martial"    
+4) "Fred"       
+5) "Ronaldo"   
+127.0.0.1:6379> sort players ALPHA
+1) "Cavani"     
+2) "Fred"       
+3) "Martial"    
+4) "Pep"        
+5) "Ronaldo"   
+127.0.0.1:6379> sort players desc ALPHA
+1) "Ronaldo"
+2) "Pep"
+3) "Martial"
+4) "Fred"
+5) "Cavani"
 ```
