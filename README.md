@@ -22,7 +22,7 @@ OK
 127.0.0.1:6379> get myKey
 "This is a String"
 
-<!--- getrange : dùng để tìm kiếm từ vị trí nào đến vị trí nào, -1 được hiểu là vị trí cuối cùng -->
+[comment]: <> (getrange : dùng để tìm kiếm từ vị trí nào đến vị trí nào, -1 được hiểu là vị trí cuối cùng)
 127.0.0.1:6379> getrange myKey 0 -1  
 "This is a String"
 127.0.0.1:6379> getrange myKey 0 3
