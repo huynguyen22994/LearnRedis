@@ -308,7 +308,7 @@ OK
 7) "java"      
 ```
 
--- sunionstore : tạo ra một key mới mà sẽ nối 2 hay nhiều key (colection) lại với nhau nhưng những giá trị giống nhau nó sẽ gom lại làm một, và ko để trùng nhau
+- sunionstore : tạo ra một key mới mà sẽ nối 2 hay nhiều key (colection) lại với nhau nhưng những giá trị giống nhau nó sẽ gom lại làm một, và ko để trùng nhau
 ```
 127.0.0.1:6379> sunionstore mergeKey backend frontend
 (integer) 7
@@ -321,3 +321,21 @@ OK
 6) "C#"
 7) "java"
 ```
+
+## Subscribe service in Redis
+
+- Service 1 call to Service 2 and Service 3:
+
+![plot](./SubscribeService.PNG)
+
+## Implement Order Service with subscribe by Payment Service, SendMail Service and Meta Service
+
+- I have 4 service run with 4 ports 
+  - Order Service: 3000
+  - Payment Service: 3001
+  - SendMail Service: 3002
+  - Meta Service: 3003
+
+- Then call api GET '/order' of Service Order and then system will be call to Payment, SendMail, and Meta Services
+
+![plot](./services.PNG)
