@@ -327,3 +327,15 @@ OK
 - Service 1 call to Service 2 and Service 3:
 
 ![plot](./SubscribeService.PNG)
+
+## Implement Order Service with subscribe by Payment Service, SendMail Service and Meta Service
+
+- I have 4 service run with 4 ports 
+  - Order Service: 3000
+  - Payment Service: 3001
+  - SendMail Service: 3002
+  - Meta Service: 3003
+
+- Then call api GET '/order' of Service Order and then system will be call to Payment, SendMail, and Meta Services
+
+![plot](./services.PNG)
