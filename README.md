@@ -162,7 +162,7 @@ OK
 127.0.0.1:6379> lrange players 0 -1
 1) "Ronaldo" 
 ```
--- lset : sửa lại giá trị một phần tử trong list
+- lset : sửa lại giá trị một phần tử trong list
 ```
 127.0.0.1:6379> lrange players 0 -1
 1) "Cavani"     
@@ -176,7 +176,7 @@ OK
 3) "Ronaldo" 
 ```
 
--- linsert : dùng để thêm 1 phần tử sau hoặc trước một phần từ chỉ định
+- linsert : dùng để thêm 1 phần tử sau hoặc trước một phần từ chỉ định
 ```
 127.0.0.1:6379> lrange players 0 -1
 1) "Cavani"     
@@ -194,17 +194,17 @@ OK
 5) "Ronaldo"    
 ```
 
--- lindex : lấy giá trị của phần tử ở index trong list
+- lindex : lấy giá trị của phần tử ở index trong list
 ```
 127.0.0.1:6379> lindex players 2
 "Martial"   
 ```
--- lpushx : thêm một phần tử vào keyList nhưng khác lpush là NẾU key không tồn tại sẽ không được tạo key và push vào
+- lpushx : thêm một phần tử vào keyList nhưng khác lpush là NẾU key không tồn tại sẽ không được tạo key và push vào
 ```
 127.0.0.1:6379> lpushx movies Conan
 (integer) 0    
 ```
--- sort : sắp xếp lại các phần tử trong list theo kiểu sort tùy chọn
+- sort : sắp xếp lại các phần tử trong list theo kiểu sort tùy chọn
 ```
 127.0.0.1:6379> lrange players 0 -1
 1) "Pep"        
@@ -224,4 +224,100 @@ OK
 3) "Martial"
 4) "Fred"
 5) "Cavani"
+```
+
+## Redis Sets
+
+- sadd : dùng để set cùng lúc nhiều giá trị vào key (khác với mset và khác với List). Cái này giống như Object
+```
+127.0.0.1:6379> sadd backend nodejs java C#
+(integer) 3   
+```
+
+- smembers : dùng để lấy ra các phần tử của một key
+```
+127.0.0.1:6379> smembers backend
+1) "C#"
+2) "java"       
+3) "nodejs"     
+```
+
+- scard : lấy số lượng card trong một key
+```
+127.0.0.1:6379> scard backend
+(integer) 3     
+```
+
+- sismember : dùng để kiểm tra một giá trị có trong key hay không
+```
+127.0.0.1:6379> sismember backend java
+(integer) 1 
+```
+
+- sdiff : dùng để xem các phần tử khác nhau của key đầu với key sau
+```
+127.0.0.1:6379> sdiff backend frontend
+1) "nodejs"     
+2) "java"       
+3) "C#"
+```
+
+- sdiffstore <tên setKey mới> : sẽ so sánh phần tử khác nhau của key đầu và key sau, sau đó tạo và lưu vào key mới
+```
+127.0.0.1:6379> sdiffstore newSetKey backend frontend
+(integer) 3     
+127.0.0.1:6379> smembers newSetKey
+1) "nodejs"     
+2) "java"       
+3) "C#"
+``` 
+
+- sinter : dùng để lấy các phần tử trùng nhau của key đầu và key sau
+```
+127.0.0.1:6379> sinter backend frontend
+1) "nodejs"     
+```
+
+- sinterstore <tên setKey mới> : sẽ so sánh phần tử giống nhau của key đầu và key sau, sau đó tạo và lưu vào key mới
+```
+127.0.0.1:6379> sinterstore newKeyInter backend frontend
+(integer) 1     
+127.0.0.1:6379> smembers newKeyInter
+1) "nodejs"  
+```
+
+- sunion : sẽ nối 2 hay nhiều key (colection) lại với nhau nhưng những giá trị giống nhau nó sẽ gom lại làm một, và ko để trùng nhau
+```
+127.0.0.1:6379> smembers backend
+1) "golang"     
+2) "C#"
+3) "java"       
+4) "nodejs"     
+127.0.0.1:6379> smembers frontend
+1) "css"        
+2) "nodejs"     
+3) "html"       
+4) "javascript" 
+127.0.0.1:6379> sunion mergeKey backend frontend
+1) "nodejs"     
+2) "javascript" 
+3) "golang"     
+4) "css"        
+5) "html"       
+6) "C#"
+7) "java"      
+```
+
+-- sunionstore : tạo ra một key mới mà sẽ nối 2 hay nhiều key (colection) lại với nhau nhưng những giá trị giống nhau nó sẽ gom lại làm một, và ko để trùng nhau
+```
+127.0.0.1:6379> sunionstore mergeKey backend frontend
+(integer) 7
+127.0.0.1:6379> smembers mergeKey
+1) "nodejs"
+2) "javascript"
+3) "golang"
+4) "css"
+5) "html"
+6) "C#"
+7) "java"
 ```
