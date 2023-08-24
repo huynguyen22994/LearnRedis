@@ -24,12 +24,12 @@ OK
 "This is a String"
 
 - getrange : dùng để tìm kiếm từ vị trí nào đến vị trí nào, -1 được hiểu là vị trí cuối cùng
-127.0.0.1:6379> getrange myKey 0 -1  
-"This is a String"
-127.0.0.1:6379> getrange myKey 0 3
-"This"
-127.0.0.1:6379> getrange myKey -3 -1
-"ing"
+> 127.0.0.1:6379> getrange myKey 0 -1  
+> "This is a String"
+> 127.0.0.1:6379> getrange myKey 0 3
+> "This"
+> 127.0.0.1:6379> getrange myKey -3 -1
+> "ing"
 
 <!--- mset : dùng để set cùng lúc nhiều keys -->
 127.0.0.1:6379> mset key1 "value1" key2 "value2"
