@@ -322,6 +322,46 @@ OK
 7) "java"
 ```
 
+## Redis hashes
+- Redis Hashes : Là một loại bảng ghi có cấu trúc giống như một colection. Có thể biểu diển bảng ghi dưới dạng key và value là một tập hợp các key value khác. Giống Table
+
+- hset : dùng để tạo ra một key hashes có tập hợp các key value bên trong
+```
+127.0.0.1:6379> hset table row1 "value1"
+(integer) 1     
+127.0.0.1:6379> hset table row2 "value2"
+(integer) 1
+127.0.0.1:6379> hset table row3 "value3"
+(integer) 1
+```
+
+- hmset : dùng để set nhiều key value vào một hash
+```
+127.0.0.1:6379> hmset table row5 'value5' row6 'value6'
+OK
+```
+
+- hget : dùng để lấy một giá trị của một key bên trong một hash
+```
+127.0.0.1:6379> hget table row1
+"value1"        
+```
+
+- hmget : dùng để lấy nhiểu giá trị của nhiều key bên trong một hash
+```
+127.0.0.1:6379> hmget table row1 row2
+1) "value1"     
+2) "value2"  
+```
+
+- hincby : dùng để tăng giá trị của một key trong hash theo tùy chọn
+```
+127.0.0.1:6379> hincrby bike:1 price 100
+(integer) 5072
+127.0.0.1:6379> hincrby bike:1 price -100
+(integer) 4972
+```
+
 ## Subscribe service in Redis
 
 - Service 1 call to Service 2 and Service 3:
