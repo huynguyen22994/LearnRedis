@@ -1,0 +1,21 @@
+@urlDev=http://localhost:3051
+
+### checkStatus
+
+GET {{urlDev}}/checkstatus
+
+### set redis
+PUT {{urlDev}}/v1/user
+Content-Type: application/json
+
+{
+    "key": "u:10001",
+    "payload": {
+        "uid": 10001,
+        "name": "Huy Nguyen"
+    }
+}
+
+### get redis
+
+GET {{urlDev}}/v1/user?key=u:10001

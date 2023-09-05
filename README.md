@@ -3,6 +3,20 @@
 - Install for Window: https://github.com/microsoftarchive/redis/releases
 - Redis Commander: Redis web management tool written in node.js - https://www.npmjs.com/package/redis-commander
 
+## Sự có tuyết lở trong Redis (Sập hệ thống)
+- 2 lý do:
+    - 1. 1 lượng lớn dữ liệu hết hạn -> truy vấn thẳng vào MySQL hoặc MongoDb đễn đến đạt ngưỡng 2000 query/1s -> sập hệ thống
+    - 2. Redis thất bại do 1 số lý do... nhà cung cấp VPS tắt điện đột ngột hoặc Redis bị chết ...
+- -> Biện pháp khắc phục
+  - 1. Tránh các key hết hạn cùng 1 lúc bằng cách không đặt expire Time là hằng số mà lấy số thời gian cộng trừ thêm một số random để các key không có đồng thời chết
+  - 2. Dùng mustache: nghĩa là khóa lượng truy vấn đồng thời khi Redis hết hạn
+  - 3. Khóa cache: nghĩa là tạo ra một cache khác song song nhưng không set thời gian hết hạn. Khi mà cache có thời gian hết hạn hết thì sẽ lấy cache viễn viễn => cách này nếu không dọn rác được cache không thời gian hết hạn thì sẽ trở nên không tối ưu
+
+## Redis Cloud for Free
+- Redis Cloud Free: https://redis.com/
+- Redis Cloud Free: https://app.redislabs.com/
+- Redis Insight GUI: https://redis.com/redis-enterprise/redis-insight/
+
 ## Scripts Redis Commander
 - Install on Global: npm install -g redis-commander 
 - Install on Local Project: npm install redis-commander 
