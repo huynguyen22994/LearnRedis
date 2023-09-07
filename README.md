@@ -130,6 +130,9 @@ OK
 ```
 
 ## Redis with Array/List
+
+![](/images/redis-list.jpg)
+
 - lpush : tạo 1 key là array và đẩy giá trị vào (đầy từ bên trái) array đó
 ```
 127.0.0.1:6379> lpush players Ronaldo
@@ -176,6 +179,13 @@ OK
 127.0.0.1:6379> lrange players 0 -1
 1) "Ronaldo" 
 ```
+
+- blpop - xóa phần tử mới nhất (trên cùng - bên trái) ra khỏi list nhưng block lại để tránh sai dữ liệu khi đồng thời cao trên 1 record
+```
+blpop players Ronaldo
+```
+
+
 - lset : sửa lại giá trị một phần tử trong list
 ```
 127.0.0.1:6379> lrange players 0 -1
@@ -337,7 +347,8 @@ OK
 ```
 
 ## Redis hashes
-- Redis Hashes : Là một loại bảng ghi có cấu trúc giống như một colection. Có thể biểu diển bảng ghi dưới dạng key và value là một tập hợp các key value khác. Giống Table
+- Redis Hashes : Là một loại bảng ghi có cấu trúc giống như một colection. Có thể biểu diển bảng ghi dưới dạng key và value là một tập hợp các key value khác. Giống Table hoặc Object trong JS
+![](/images/redis-hash-sample.png)
 
 - hset : dùng để tạo ra một key hashes có tập hợp các key value bên trong
 ```
@@ -375,6 +386,48 @@ OK
 127.0.0.1:6379> hincrby bike:1 price -100
 (integer) 4972
 ```
+
+- hlen : dùng để lấy tổng số key trong hash
+```
+127.0.0.1:6379> hlen table
+(integer) 2
+```
+
+- hgetall : dùng để lấy hết key value của một hash
+```
+127.0.0.1:6379> hgetall table
+1) "row1"
+2) "test"
+3) "row2"
+4) "test2"
+```
+- hkeys : dùng để lấy key của hash
+```
+127.0.0.1:6379> hkeys table
+1) "row1"
+2) "row2"
+```
+- hvals : dùng để lấy giá trị trong hash
+```
+127.0.0.1:6379> hvals table
+1) "test"
+2) "test2"
+```
+- hexists : check key có tồn tại trong hash
+```
+127.0.0.1:6379> hexists table row1
+(integer) 1
+```
+- hdel : xóa key trong hash
+```
+127.0.0.1:6379> hdel table row1
+(integer) 1
+```
+
+Hash được dùng để lưu Giảo Hàng trước khi thanh toán đồng bộ với database như sau:
+![](/images/redis-hash-in-cart.png)
+![](/images/cart-hash.png)
+kịch bản dữ liệu cho giỏ hàng
 
 ## Subscribe service in Redis
 
