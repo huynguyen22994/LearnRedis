@@ -3,6 +3,8 @@
 - Install for Window: https://github.com/microsoftarchive/redis/releases
 - Redis Commander: Redis web management tool written in node.js - https://www.npmjs.com/package/redis-commander
 
+![](/images/Redis-v2-explain.jpg)
+
 ## Sự có tuyết lở trong Redis (Sập hệ thống)
 - 2 lý do:
     - 1. 1 lượng lớn dữ liệu hết hạn -> truy vấn thẳng vào MySQL hoặc MongoDb đễn đến đạt ngưỡng 2000 query/1s -> sập hệ thống
@@ -252,7 +254,10 @@ OK
 
 ## Redis Sets
 
-- sadd : dùng để set cùng lúc nhiều giá trị vào key (khác với mset và khác với List). Cái này giống như Object
+- sadd : dùng để set cùng lúc nhiều giá trị vào key (khác với mset và khác với List). Cái này giống (List nhưng các phần tử không được trùng nhay như List) như key và giá trị là chuỗi giá trị khác nhau có thể là String, List, Hash
+
+![](/images/set-structure.jpeg  )
+
 ```
 127.0.0.1:6379> sadd backend nodejs java C#
 (integer) 3   
@@ -346,7 +351,13 @@ OK
 7) "java"
 ```
 
-## Redis hashes
+Kịch bản sử dụng Set trong ứng dụng
+
+## Redis ZSet
+- Zset là bộ sưu tập có thứ tự
+
+
+## Redis Hashes
 - Redis Hashes : Là một loại bảng ghi có cấu trúc giống như một colection. Có thể biểu diển bảng ghi dưới dạng key và value là một tập hợp các key value khác. Giống Table hoặc Object trong JS
 ![](/images/redis-hash-sample.png)
 
@@ -446,3 +457,24 @@ kịch bản dữ liệu cho giỏ hàng
 - Then call api GET '/order' of Service Order and then system will be call to Payment, SendMail, and Meta Services
 
 ![plot](./services.PNG)
+
+## Transaction Redis
+Khái niệm Transaction:
+
+    - Là tập hợp các lệnh thực hiện mà kết quả là -> 1 là thành công, 2 là thất bại 
+    - Thành công khi tất cả các lệnh đều thành công
+    - Thất bại khi chỉ cần 1 lệnh fail là thất bại
+
+Keywords Transaction trong Redis: Watch, Multi, Exec, Discard
+
+- Ví dụ 1: Dùng Multi tạo ra queue để thực hiện danh sách lệnh và thành công
+
+![](/images/multi-redis.png)
+
+- Ví dụ 2: Dùng Multi tạo ra queue để thực hiện danh sách lệnh nhưng thất bại vì có 1 lệnh chạy fail
+
+![](/images/multi-redis-err.png)
+
+- Ví dụ 3: kết hợp với Watch. Dùng watch để nhìn một key và nếu key đó đang trong tiến trình của Multi để thực hiện các lệnh mà có sự thay đổi từ một luồng bên ngoài thì Luồng Multi đó sẽ thất bại
+
+![](/images/watch-redis.png)
